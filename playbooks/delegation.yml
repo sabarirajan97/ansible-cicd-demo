@@ -1,0 +1,28 @@
+---
+- name: Ansible delegation demonstration
+  hosts: webservers
+  become: false
+
+  tasks:
+    - name: Display target server
+      ansible.builtin.debug:
+        msg: "Target server is {{ inventory_hostname }}"
+
+    - name: Execute hostname command on Jenkins controller
+      ansible.builtin.command: hostname
+      delegate_to: localhost
+      register: controller_hostname
+      run_once: true
+
+    - name: Display Jenkins controller hostname
+      ansible.builtin.debug:
+        msg: "Ansible controller is {{ controller_hostname.stdout }}"
+      run_once: true
+
+    - name: Create a file on Jenkins controller
+      ansible.builtin.copy:
+        content: "Created through Ansible delegation\n"
+        dest: /tmp/delegation-test.txt
+        mode: '0644'
+      delegate_to: localhost
+      run_once: true

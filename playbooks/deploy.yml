@@ -1,0 +1,44 @@
+---
+- name: Deploy Nginx application
+  hosts: webservers
+  become: true
+
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+      tags:
+        - install
+
+    - name: Deploy application webpage
+      ansible.builtin.copy:
+        content: |
+          <html>
+          <head><title>Ansible CI/CD Demo</title></head>
+          <body>
+          <h1>Welcome!</h1>
+          <p>Deployed using Ansible and Jenkins.</p>
+          <p>Server: {{ inventory_hostname }}</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      notify: Restart Nginx
+      tags:
+        - deploy
+
+    - name: Ensure Nginx is running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

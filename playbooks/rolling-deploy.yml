@@ -1,0 +1,38 @@
+---
+- name: Ansible rolling deployment
+  hosts: webservers
+  become: true
+  serial: 1
+  any_errors_fatal: true
+
+  tasks:
+    - name: Display deployment target
+      ansible.builtin.debug:
+        msg: "Deploying application on {{ inventory_hostname }}"
+
+    - name: Deploy application webpage
+      ansible.builtin.copy:
+        content: |
+          <html>
+          <head><title>Rolling Deployment</title></head>
+          <body>
+          <h1>Rolling deployment successful!</h1>
+          <p>Server: {{ inventory_hostname }}</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      notify: Restart Nginx
+
+    - name: Verify Nginx HTTP response
+      ansible.builtin.uri:
+        url: http://127.0.0.1
+        status_code: 200
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

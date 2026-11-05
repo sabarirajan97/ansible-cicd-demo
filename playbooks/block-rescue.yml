@@ -1,0 +1,32 @@
+---
+- name: Demonstrate Ansible block rescue always
+  hosts: webservers
+  become: true
+
+  tasks:
+    - name: Failure recovery demonstration
+      block:
+        - name: Execute a command that fails
+          ansible.builtin.command: /bin/false
+
+        - name: This task will be skipped
+          ansible.builtin.debug:
+            msg: "This task will not execute"
+
+      rescue:
+        - name: Recover from failure
+          ansible.builtin.copy:
+            content: "Failure recovered on {{ inventory_hostname }}\n"
+            dest: /tmp/ansible-block-recovery.txt
+            mode: '0644'
+
+        - name: Display recovery message
+          ansible.builtin.debug:
+            msg: "Successfully recovered on {{ inventory_hostname }}"
+
+      always:
+        - name: Execute completion task
+          ansible.builtin.copy:
+            content: "Always task executed\n"
+            dest: /tmp/ansible-always.txt
+            mode: '0644'

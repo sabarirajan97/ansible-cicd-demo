@@ -1,0 +1,26 @@
+---
+- name: Ansible error handling demonstration
+  hosts: webservers
+  become: true
+
+  tasks:
+    - name: Execute a command that intentionally fails
+      ansible.builtin.command: /bin/false
+      register: failure_result
+      ignore_errors: true
+
+    - name: Display failure information
+      ansible.builtin.debug:
+        msg: "The command failed. Starting recovery."
+
+      when: failure_result.failed
+
+    - name: Recover by creating a recovery file
+      ansible.builtin.file:
+        path: /tmp/ansible-recovery.txt
+        state: touch
+        mode: '0644'
+
+    - name: Confirm recovery
+      ansible.builtin.debug:
+        msg: "Recovery completed on {{ inventory_hostname }}"
