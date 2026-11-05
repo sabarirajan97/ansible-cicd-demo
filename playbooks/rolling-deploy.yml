@@ -20,7 +20,7 @@
           <p>Server: {{ inventory_hostname }}</p>
           </body>
           </html>
-        dest: /var/www/html/index.html
+        dest: /var/www/html/invalid/index.html
         owner: www-data
         group: www-data
         mode: '0644'
