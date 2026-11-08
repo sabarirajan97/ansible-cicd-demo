@@ -1,3 +1,4 @@
+
 ---
 - name: Ansible rolling deployment
   hosts: webservers
@@ -14,9 +15,9 @@
       ansible.builtin.copy:
         content: |
           <html>
-          <head><title>Rolling Deployment</title></head>
+          <head><title>Automatic CI/CD Deployment</title></head>
           <body>
-        <h1>Automatic CI/CD Deployment Successful!</h1>
+          <h1>Automatic CI/CD Deployment Successful!</h1>
           <p>Server: {{ inventory_hostname }}</p>
           </body>
           </html>
