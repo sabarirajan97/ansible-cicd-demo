@@ -15,12 +15,12 @@
       ansible.builtin.copy:
         content: |
           <html>
-          <head><title>Automatic CI/CD Deployment</title></head>
+          <head><title>My Updated CI/CD Project</title></head>
           <body>
-         <h1>Welcome to My Updated CI/CD Project!</h1>
-<p>Deployment Version: 2.0</p>
-<p>Server: {{ inventory_hostname }}</p>
-<p>Updated automatically using GitHub, Jenkins and Ansible.</p>
+          <h1>Welcome to My Updated CI/CD Project!</h1>
+          <p>Deployment Version: 2.0</p>
+          <p>Server: {{ inventory_hostname }}</p>
+          <p>Updated automatically using GitHub, Jenkins and Ansible.</p>
           </body>
           </html>
         dest: /var/www/html/index.html
