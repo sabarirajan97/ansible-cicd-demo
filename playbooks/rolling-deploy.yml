@@ -16,7 +16,7 @@
           <html>
           <head><title>Rolling Deployment</title></head>
           <body>
-          <h1>Rolling deployment successful!</h1>
+        <h1>Automatic CI/CD Deployment Successful!</h1>
           <p>Server: {{ inventory_hostname }}</p>
           </body>
           </html>
