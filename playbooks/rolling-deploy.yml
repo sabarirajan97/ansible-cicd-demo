@@ -17,7 +17,7 @@
           <html>
           <head><title>My Updated CI/CD Project</title></head>
           <body>
-          <h1>Welcome to Arni!</h1>
+          <h1>Welcome to US!</h1>
           <p>Deployment Version: 2.0</p>
           <p>Server: {{ inventory_hostname }}</p>
           <p>Updated automatically using GitHub, Jenkins and Ansible.</p>
